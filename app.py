@@ -3,6 +3,7 @@ import preprocessor,helper
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 st.sidebar.title("Whatsapp Chat Analyzer")
 
 uploaded_file = st.sidebar.file_uploader("Choose a file")
@@ -13,11 +14,14 @@ if uploaded_file is not None:
 
     # fetch unique users
     user_list = df['user'].unique().tolist()
-    user_list.remove('group_notification')
-    user_list.sort()
-    user_list.insert(0,"Overall")
+     # Check if 'group_notification' is in the list before removing
+    if 'group_notification' in user_list:
+        user_list.remove('group_notification')
 
-    selected_user = st.sidebar.selectbox("Show analysis wrt",user_list)
+    user_list.sort()
+    user_list.insert(0, "Overall")
+
+    selected_user = st.sidebar.selectbox("Show analysis wrt", user_list)
 
     if st.sidebar.button("Show Analysis"):
 
@@ -114,7 +118,7 @@ if uploaded_file is not None:
         st.title('Most commmon words')
         st.pyplot(fig)
 
-        # emoji analysis
+ # emoji analysis
         emoji_df = helper.emoji_helper(selected_user,df)
         st.title("Emoji Analysis")
 
